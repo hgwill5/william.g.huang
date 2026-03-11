@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -37,10 +37,16 @@
             --text-color: #f8f8f8;
         }
 
+        html,
+        body {
+            overflow-x: hidden;
+            width: 100vw;
+            position: relative;
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow-x: hidden;
             font-family: 'Manrope', sans-serif;
         }
 
@@ -290,6 +296,13 @@
             animation-play-state: paused;
         }
 
+        .hardware-accelerate {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
         .mask-image-y {
             -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
             mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
@@ -308,6 +321,7 @@
             <a href="#experience" class="hover:text-brand transition">Experiences</a>
             <a href="#education" class="hover:text-brand transition">Educations</a>
             <a href="#certifications" class="hover:text-brand transition">Certifications</a>
+            <a href="#role" class="hover:text-brand transition">Role alignment & Career aspirations</a>
             <a href="#contact" class="hover:text-brand transition">Contact</a>
         </div>
     </nav>
@@ -365,7 +379,7 @@
                 <div class="flex flex-col justify-between">
 
                     <p class="text-lg text-neutral-600 leading-relaxed mb-4">
-                        Experience in management, product management, consulting, project
+                        Experienced in management, product management, consulting, project
                         management, business architecture and end-to-end process flow design,
                         I focus on delivering high-quality solutions that drive growth and
                         enhance user experiences.
@@ -404,10 +418,11 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
                 </div> <!-- Floating Technology Icons Marquee -->
                 <div
-                    class="absolute right-0 md:right-[5%] top-0 bottom-0 w-[50%] md:w-[600px] overflow-hidden flex justify-end gap-3 md:gap-8 mask-image-y z-0 opacity-50 hover:opacity-100 transition-opacity duration-500">
+                    class="absolute right-0 md:right-[5%] top-0 bottom-0 w-[50%] md:w-[600px] overflow-hidden flex justify-end gap-3 md:gap-8 mask-image-y z-0 opacity-50 hover:opacity-100 transition-opacity duration-500 hardware-accelerate">
 
                     <!-- Column 1: Upwards -->
-                    <div class="flex flex-col gap-6 animate-marquee-up-1 py-6 items-center w-1/3 mt-12">
+                    <div
+                        class="flex flex-col gap-6 animate-marquee-up-1 py-6 items-center w-1/3 mt-12 hardware-accelerate">
                         <img src="assets/techlogo/Azure.png" alt="Azure"
                             class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
                         <img src="assets/techlogo/gemini.png" alt="Canva"
@@ -437,7 +452,8 @@
                     </div>
 
                     <!-- Column 2: Downwards -->
-                    <div class="flex flex-col gap-6 animate-marquee-down-2 py-6 items-center w-1/3 -mt-24">
+                    <div
+                        class="flex flex-col gap-6 animate-marquee-down-2 py-6 items-center w-1/3 -mt-24 hardware-accelerate">
                         <img src="assets/techlogo/Python.png" alt="Python"
                             class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
                         <img src="assets/techlogo/SAP.jpg" alt="SAP"
@@ -467,7 +483,8 @@
                     </div>
 
                     <!-- Column 3: Upwards -->
-                    <div class="flex flex-col gap-6 animate-marquee-up-3 py-6 items-center w-1/3 mt-32">
+                    <div
+                        class="flex flex-col gap-6 animate-marquee-up-3 py-6 items-center w-1/3 mt-32 hardware-accelerate">
                         <img src="assets/techlogo/Togaf.jpg" alt="TOGAF"
                             class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
                         <img src="assets/techlogo/Ts.png" alt="TypeScript"
@@ -973,21 +990,50 @@
                 </div>
             </section>
 
-            <section class="py-32 px-6 bg-white text-dark">
+            <section id="role" class="py-32 px-6 bg-white text-dark">
                 <div class="max-w-6xl mx-auto">
                     <h2 class="text-4xl font-black uppercase tracking-tight mb-16">Role alignement & Career aspirations
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
                         <div class="space-y-8">
                             <div class="border-t border-neutral-200 pt-6">
-                                <p class="text-brand font-bold text-xs mb-2">EDUCATION</p>
-                                <p class="text-lg">Trained 30+ persons as part of <span class="font-bold">Accenture
-                                        Internal Faculty</span> for bootcamp sessions.</p>
+                                <p class="text-brand font-bold text-xs mb-2">What are you looking for ? </p>
+                                <p class="text-lg"> Are you looking for Digital transformation to improve you business
+                                    with AI ?
+
+                                    For Optimization of processes to improve you business with AI ?
+
+                                    For Development of next Generation Products with AI ?
+
+                                    An Agile project manager ?
+                                    Or a SAP expert ? Lets connect and have a talk ! </p>
+
+
+
+
+
                             </div>
                             <div class="border-t border-neutral-200 pt-6">
-                                <p class="text-brand font-bold text-xs mb-2">EVENTS</p>
-                                <p class="text-lg">Organized "Tech for Retail" fair, connecting Accenture leadership to
-                                    C-level executives.</p>
+                                <p class="text-brand font-bold text-xs mb-2">What I bring : </p>
+                                <p class="text-lg">Deep experience in designing and optimizing business architecture and
+                                    enterprise processes.
+
+                                    The mindset of a perfectionist product manager focused on delivering high-quality
+                                    outcomes.
+
+                                    Proven Agile project management capabilities.
+
+                                    Strong adaptability and a continuous learning mindset.
+
+                                    And a very curious Dude with the passion for discovering and implementing the latest
+                                    technologies to product development and business operations improvement.</p>
+                                <p class="text-lg">If your company is planning to embrace AI as a strategic
+                                    transformation, I would be
+                                    excited to contribute by helping you: Design AI-driven enterprise architectures,
+                                    Build
+                                    AI-powered products and software, Create autonomous AI-enabled process flows,
+                                    Integrate
+                                    Generative AI into business strategy and operations.</p>
                             </div>
                         </div>
                         <div class="space-y-8">
@@ -1041,9 +1087,25 @@
 
         <script>
             // Initialize Smooth Scroll
-            const lenis = new Lenis();
-            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-            requestAnimationFrame(raf);
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            });
+
+            // Sync GSAP's ScrollTrigger with Lenis
+            lenis.on('scroll', ScrollTrigger.update);
+
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000); // GSAP provides time in seconds, Lenis needs ms
+            });
+            gsap.ticker.lagSmoothing(0);
 
             gsap.registerPlugin(ScrollTrigger);
 
