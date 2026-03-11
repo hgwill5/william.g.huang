@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CV | [Huang William]</title>
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;700;800&display=swap"
+        rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#135bec', /* The accent blue */
+                        dark: '#121212',
+                        light: '#f8f8f8',
+                    },
+                    fontFamily: { sans: ['Manrope', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #f8f8f8;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .reveal-text {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        .reveal-text span {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+
+        .glass-nav {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+
+        /* Certification card hover movement */
+        .cert-card {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Experience card: smooth transitions for hover/parallax (JS-driven) */
+        #experience .exp-card {
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+            cursor: pointer;
+            padding: 1.25rem !important;
+            /* Make cards more compact */
+        }
+
+        #experience .exp-card.exp-card-hover {
+            box-shadow: 0 28px 56px -12px rgba(19, 94, 236, 0.25), 0 0 0 1px rgba(19, 94, 236, 0.1);
+        }
+
+        /* Compact mode: hide long list details, shown only in modal */
+        #experience .exp-card ul {
+            display: none;
+        }
+
+        #experience .exp-card h4 {
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* Call-to-action indicator for the modal */
+        #experience .exp-card::after {
+            content: 'Click to view details ↗';
+            display: block;
+            margin-top: auto;
+            padding-top: 1.25rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #135bec;
+            font-weight: 800;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        #experience .exp-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Experience modal */
+        .exp-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .exp-modal-overlay.exp-modal-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .exp-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            max-width: 640px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.6);
+            z-index: 101;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .exp-modal.exp-modal-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .exp-modal .exp-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: #f8f8f8;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1.25rem;
+            line-height: 1;
+            transition: background 0.2s;
+        }
+
+        .exp-modal .exp-modal-close:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .exp-modal .exp-modal-body {
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        .exp-modal .exp-modal-body ul {
+            padding-left: 1rem;
+        }
+
+        .exp-modal .exp-modal-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Experience blocks backgrounds */
+        .exp-block-loreal,
+        .exp-block-ge,
+        .exp-block-editis,
+        .exp-block-motherson,
+        .exp-block-acn {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .exp-block-loreal::before,
+        .exp-block-ge::before,
+        .exp-block-editis::before,
+        .exp-block-motherson::before,
+        .exp-block-acn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.88) 0%, rgba(18, 18, 18, 0.75) 100%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .exp-block-loreal>*,
+        .exp-block-ge>*,
+        .exp-block-editis>*,
+        .exp-block-motherson>*,
+        .exp-block-acn>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .exp-block-loreal {
+            background-image: url('assets/Loreal.jpg');
+            background-position: left center;
+        }
+
+        .exp-block-ge {
+            background-image: url('assets/GE.jpg');
+        }
+
+        .exp-block-editis {
+            background-image: url('assets/editis.jpg');
+        }
+
+        .exp-block-motherson {
+            background-image: url('assets/Motherson.jpg');
+        }
+
+        .exp-block-acn {
+            background-image: url('assets/ACN.jpg');
+        }
+
+        /* Marquee styles */
+        @keyframes marquee-y-up {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(calc(-50% - 0.75rem));
+            }
+        }
+
+        @keyframes marquee-y-down {
+            from {
+                transform: translateY(calc(-50% - 0.75rem));
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .animate-marquee-up-1 {
+            animation: marquee-y-up 25s linear infinite;
+        }
+
+        .animate-marquee-down-2 {
+            animation: marquee-y-down 35s linear infinite;
+        }
+
+        .animate-marquee-up-3 {
+            animation: marquee-y-up 45s linear infinite;
+        }
+
+        .animate-marquee-up-1:hover,
+        .animate-marquee-down-2:hover,
+        .animate-marquee-up-3:hover {
+            animation-play-state: paused;
+        }
+
+        .mask-image-y {
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center glass-nav">
+        <div class="flex items-center gap-2">
+            <span class="text-sm font-bold tracking-widest uppercase text-brand">[Huang William]</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-[10px] uppercase font-bold tracking-widest">
+            <a href="#about" class="hover:text-brand transition">About</a>
+            <a href="#experience" class="hover:text-brand transition">Experiences</a>
+            <a href="#education" class="hover:text-brand transition">Educations</a>
+            <a href="#certifications" class="hover:text-brand transition">Certifications</a>
+            <a href="#contact" class="hover:text-brand transition">Contact</a>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <section class="relative min-h-screen flex flex-col justify-end px-6 pb-20 pt-32 overflow-hidden">
+            <!-- Solid background -->
+            <div class="absolute inset-0 -z-30 bg-neutral-900"></div>
+
+            <!-- Absolute Hero Image Area (Right aligned) -->
+            <div class="absolute inset-0 md:left-[30%] -z-20 overflow-hidden">
+                <!-- Gradients to blend the image into the dark background smoothly -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-neutral-900 via-neutral-900/40 to-transparent z-10 hidden md:block">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/30 to-transparent z-10">
+                </div>
+                <div class="absolute inset-0 bg-neutral-900/60 md:hidden z-10"></div>
+                <!-- Mobile overlay to ensure text is readable -->
+
+                <img src="assets/Me.JPG" alt="William"
+                    class="hero-image w-full h-full object-cover object-[center_25%] opacity-70 md:opacity-90 mix-blend-luminosity">
+            </div>
+
+            <!-- Foreground Content -->
+            <div class="max-w-6xl relative z-10">
+                <div class="mb-6 flex justify-between items-start">
+                    <p class="text-[10px] uppercase tracking-widest text-neutral-400">Consultant / Digital
+                        Transfomation/ Product manager/ Project Manager<br />Based in Paris</p>
+                </div>
+
+                <h1
+                    class="text-[14vw] font-black uppercase leading-[0.85] tracking-tighter italic mb-8 drop-shadow-2xl">
+                    <span class="reveal-text"><span>William</span></span><br />
+                    <span class="reveal-text"><span>Huang</span></span><br />
+                    <span class="reveal-text"><span>Let there be change !</span></span>
+                </h1>
+
+                <p class="text-xl font-medium max-w-xl leading-tight reveal-text drop-shadow-md">
+                    <span>Passionate professional dedicated to creating impact through curiosity, continuous learning,
+                        and fast adaptation.</span>
+                </p>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 px-6 bg-white text-dark">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <p class="text-xs uppercase tracking-widest text-neutral-400 mb-4">The Profile</p>
+                    <p class="text-3xl font-bold leading-tight">
+                        I bridge the gap between complex problems and elegant solutions. The rise of AI has transformed
+                        the way I see and approach challenges, and it continues to shape my thinking and vision.
+                    </p>
+                </div>
+                <div class="flex flex-col justify-between">
+
+                    <p class="text-lg text-neutral-600 leading-relaxed mb-4">
+                        Experience in management, product management, consulting, project
+                        management, business architecture and end-to-end process flow design,
+                        I focus on delivering high-quality solutions that drive growth and
+                        enhance user experiences.
+                    </p>
+
+                    <p class="text-lg text-neutral-600 leading-relaxed mb-4">
+                        My approach combines strategic thinking, empathy, and technical
+                        precision to design impactful products and scalable processes.
+                    </p>
+
+                    <p class="text-lg text-neutral-600 leading-relaxed">
+                        Today, I am deeply engaged in the field of Generative AI. From prompt
+                        engineering to AI agents, RAG architectures, and AI skills, I am
+                        continuously exploring and developing a strong understanding of how
+                        transformative AI will be for organizations. I actively invest time in
+                        learning, experimenting, and building practical expertise in this
+                        rapidly evolving domain.
+                    </p>
+
+                    </p>
+                    <a class="inline-flex items-center gap-4 group mt-8" href="your-resume.pdf" download>
+                        <span class="text-sm font-bold uppercase tracking-widest">Download Full CV</span>
+                        <svg class="w-6 h-6 transition-transform group-hover:translate-x-2" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <main id="main-content">
+            <section class="relative min-h-screen flex flex-col justify-end px-6 pb-20 pt-32 overflow-hidden">
+                <div class="absolute inset-0 -z-10 bg-neutral-900">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
+                </div> <!-- Floating Technology Icons Marquee -->
+                <div
+                    class="absolute right-0 md:right-[5%] top-0 bottom-0 w-[50%] md:w-[600px] overflow-hidden flex justify-end gap-3 md:gap-8 mask-image-y z-0 opacity-50 hover:opacity-100 transition-opacity duration-500">
+
+                    <!-- Column 1: Upwards -->
+                    <div class="flex flex-col gap-6 animate-marquee-up-1 py-6 items-center w-1/3 mt-12">
+                        <img src="assets/techlogo/Azure.png" alt="Azure"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/gemini.png" alt="Canva"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Scrum.png" alt="Jira"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Js.png" alt="JavaScript"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <!-- Duplicated for loop 1 -->
+                        <img src="assets/techlogo/xai.png" alt="Azure"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Workday.png" alt="Canva"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/claude.jpg" alt="Jira"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/SAP.jpg" alt="JavaScript"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <!-- Duplicated for loop 2 -->
+                        <img src="assets/techlogo/Azure.png" alt="Azure"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Workday.png" alt="Canva"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Jira.jpg" alt="Jira"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Js.png" alt="JavaScript"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                    </div>
+
+                    <!-- Column 2: Downwards -->
+                    <div class="flex flex-col gap-6 animate-marquee-down-2 py-6 items-center w-1/3 -mt-24">
+                        <img src="assets/techlogo/Python.png" alt="Python"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/SAP.jpg" alt="SAP"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/n8n.png" alt="Shopify"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Snow.jpg" alt="ServiceNow"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <!-- Duplicated for loop 1 -->
+                        <img src="assets/techlogo/Openai.png" alt="Python"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/SAP.jpg" alt="SAP"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/langchain.png" alt="Shopify"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/firebase.png" alt="ServiceNow"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <!-- Duplicated for loop 2 -->
+                        <img src="assets/techlogo/Scrum.png" alt="Python"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/SAP.jpg" alt="SAP"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Shopify.png" alt="Shopify"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Snow.jpg" alt="ServiceNow"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                    </div>
+
+                    <!-- Column 3: Upwards -->
+                    <div class="flex flex-col gap-6 animate-marquee-up-3 py-6 items-center w-1/3 mt-32">
+                        <img src="assets/techlogo/Togaf.jpg" alt="TOGAF"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Ts.png" alt="TypeScript"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/xai.png" alt="Wix"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Wordpress.png" alt="Wordpress"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <!-- Duplicated for loop 1 -->
+                        <img src="assets/techlogo/Togaf.jpg" alt="TOGAF"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Python.png" alt="TypeScript"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/xai.png" alt="Wix"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Wordpress.png" alt="Wordpress"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <!-- Duplicated for loop 2 -->
+                        <img src="assets/techlogo/Togaf.jpg" alt="TOGAF"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Ts.png" alt="TypeScript"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/xai.png" alt="Wix"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                        <img src="assets/techlogo/Wordpress.png" alt="Wordpress"
+                            class="w-16 h-16 md:w-32 md:h-32 object-contain rounded-2xl md:rounded-[2rem] bg-white/5 p-3 md:p-5 backdrop-blur-sm border border-white/10 shadow-xl" />
+                    </div>
+                </div>
+
+                <div class="max-w-6xl relative z-10 w-full">
+                    <p class="text-[10px] uppercase tracking-widest text-brand font-bold mb-4"></p>
+                    <h1 class="text-[12vw] font-black uppercase leading-[0.85] tracking-tighter italic mb-8">
+                        <span class="reveal-text"><span>Strategy</span></span><br />
+                        <span class="reveal-text"><span>Design</span></span><br />
+                        <span class="reveal-text"><span>Delivery</span></span>
+                    </h1>
+                    <p class="text-xl font-medium max-w-xl leading-tight reveal-text">
+                        <span>Bridging business needs and technical excellence </span>
+                    </p>
+                </div>
+            </section>
+
+            <section id="experience" class="py-24 px-6 bg-dark text-light">
+                <div class="max-w-6xl mx-auto">
+                    <div
+                        class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 border-b border-neutral-800 pb-10">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-neutral-500 mb-3">Featured Experience
+                            </p>
+                            <h2 class="text-6xl md:text-7xl font-black uppercase tracking-tighter leading-none">
+                                Experiences</h2>
+                        </div>
+                    </div>
+
+                    <div class="space-y-20">
+                        <!-- ACCENTURE -->
+                        <div class="relative pl-6 md:pl-8 border-l-2 border-brand/50">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-brand"></div>
+                            <div class="mb-8">
+                                <h3 class="text-2xl md:text-3xl font-black uppercase italic text-brand">Accenture</h3>
+                                <p class="text-xs uppercase tracking-widest text-neutral-400 mt-1">Consultant · June
+                                    2022 — Present</p>
+                                <span
+                                    class="inline-block mt-2 text-[9px] uppercase tracking-widest text-neutral-500 bg-neutral-800 rounded-full px-2.5 py-1">Current</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <article
+                                    class="exp-card exp-block-loreal rounded-2xl border border-neutral-700/80 p-6 hover:border-brand/40 flex flex-col">
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <span class="text-[10px] uppercase tracking-widest text-brand">L'Oréal</span>
+                                        <span class="text-[9px] text-neutral-500">Mar 2026 — Present</span>
+                                    </div>
+                                    <h4 class="text-base font-bold uppercase mb-4">Delivery Master / Project Manager ·
+                                        Product Costing</h4>
+                                    <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                        <li>• Led the delivery of SAP Product Costing solutions within global
+                                            transformation programs, ensuring alignment with business objectives,
+                                            timeline, and budget.</li>
+                                        <li>• Coordinated cross-functional teams including business stakeholders, SAP
+                                            functional consultants, and technical teams to ensure successful project
+                                            execution.</li>
+                                        <li>• Managed the end-to-end project lifecycle, including planning, solution
+                                            design, build, testing, deployment, and hypercare phases.</li>
+                                        <li>• Monitored project risks, issues, and dependencies, providing mitigation
+                                            strategies and regular status reporting to program governance.</li>
+                                        <li>• Ensured quality delivery through adherence to project governance,
+                                            documentation standards, and change management processes.</li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">Agile</span>
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">SAP S/4HANA
+                                            CO-PC</span>
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">ServiceNow</span>
+                                    </div>
+                                </article>
+                                <article
+                                    class="exp-card exp-block-loreal rounded-2xl border border-neutral-700/80 p-6 hover:border-brand/40 flex flex-col">
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <span class="text-[10px] uppercase tracking-widest text-brand">L'Oréal</span>
+                                        <span class="text-[9px] text-neutral-500">Jun 2025 — Mar 2026</span>
+                                    </div>
+                                    <h4 class="text-base font-bold uppercase mb-4">COE EMEA &amp; ANZ · AR Credit</h4>
+                                    <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                        <li>• Led and ensured the successful deployment of the AR Credit solution across
+                                            the EMEA and ANZ regions in alignment with the global template.</li>
+                                        <li>• Supported regional cutover activities and data migration processes,
+                                            including STTM documentation preparation and test case construction.</li>
+                                        <li>• Arbitrated and validated regional change requests, ensuring alignment with
+                                            the global solution or identifying appropriate local adaptations when
+                                            necessary.</li>
+                                        <li>• Authored comprehensive Business Derivation Request process documentation
+                                            to enhance clarity and standardization, and presented derivation requests to
+                                            the GPO for validation.</li>
+                                    </ul>
+                                    <p class="text-[11px] uppercase tracking-widest text-neutral-500 mb-2">Key
+                                        accomplishment</p>
+                                    <p class="text-[13px] text-neutral-300 italic mb-4">Led AR Credit solution
+                                        deployment across EMEA and ANZ, standardizing the Business Derivation Request
+                                        process to ensure 100% alignment with the global template and GPO validation
+                                        while orchestrating regional cutovers and data migration.</p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">Agile</span>
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">SAP S/4HANA
+                                            FI-AR</span>
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">Atradius</span>
+                                        <span class="bg-neutral-800/90 rounded px-2 py-0.5 text-[9px]">ServiceNow</span>
+                                    </div>
+                                </article>
+                                <article
+                                    class="exp-card exp-block-ge rounded-2xl border border-neutral-700/80 p-6 hover:border-brand/40 flex flex-col">
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <span class="text-[10px] uppercase tracking-widest text-brand">GE Vernova</span>
+                                        <span class="text-[9px] text-neutral-500">Aug 2024 — May 2025</span>
+                                    </div>
+                                    <h4 class="text-base font-bold uppercase mb-4">Business Process Designer</h4>
+                                    <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                        <li>• Led General Business Process Design in SAP Project System, ensuring
+                                            alignment with organizational objectives.</li>
+                                        <li>• Facilitated workshops to gather requirements, conduct fit-gap analysis,
+                                            and validate process designs with stakeholders.</li>
+                                        <li>• Authored comprehensive General Business Process Documents and Detailed
+                                            Business Process Documents, enhancing process clarity and standardization.
+                                        </li>
+                                        <li>• Delivered proof-of-concept demonstrations to stakeholders, securing buy-in
+                                            for proposed solutions.</li>
+                                    </ul>
+                                    <p class="text-[11px] uppercase tracking-widest text-neutral-500 mb-2">Key
+                                        accomplishment</p>
+                                    <p class="text-[13px] text-neutral-300 italic mb-4">Led SAP Project System (PS)
+                                        design by facilitating stakeholder workshops and fit-gap analyses, securing
+                                        executive approval through proof-of-concept demos and authoring comprehensive
+                                        GBPD/DBPD documentation to standardize global processes.</p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">SAP ECC CO-PS</span>
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">JIRA</span>
+                                    </div>
+                                </article>
+                                <article
+                                    class="exp-card exp-block-editis rounded-2xl border border-neutral-700/80 p-6 hover:border-brand/40 flex flex-col">
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <span class="text-[10px] uppercase tracking-widest text-brand">Editis
+                                            Group</span>
+                                        <span class="text-[9px] text-neutral-500">Feb 2024 — Jul 2024</span>
+                                    </div>
+                                    <h4 class="text-base font-bold uppercase mb-4">Business Strategy Architect</h4>
+                                    <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                        <li>• Led the detailed design process for Business Finance Accounts Receivable,
+                                            ensuring robust and scalable financial workflows.</li>
+                                        <li>• Conducted workshops to elicit requirements, align stakeholders, and
+                                            validate design solutions for Accounts Receivable processes.</li>
+                                        <li>• Authored detailed business process documents and specific functional
+                                            requirement documents, driving clarity and operational efficiency.</li>
+                                        <li>• Collected and documented functional specifications to support system
+                                            configuration and customization.</li>
+                                        <li>• Handover to offshore teams to execute system configurations, ensuring
+                                            timely delivery and adherence to quality standards.</li>
+                                    </ul>
+                                    <p class="text-[11px] uppercase tracking-widest text-neutral-500 mb-2">Key
+                                        accomplishment</p>
+                                    <p class="text-[13px] text-neutral-300 italic mb-4">Led FI-AR (Financial Accounting
+                                        — Accounts Receivable) conceptualization and designed business workflows for the
+                                        financial department of a National Book Editor.</p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Agile</span>
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">SAP S/4HANA
+                                            FI-AR</span>
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">JIRA</span>
+                                    </div>
+                                </article>
+                                <article
+                                    class="exp-card exp-block-motherson rounded-2xl border border-neutral-700/80 p-6 hover:border-brand/40 flex flex-col">
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <span class="text-[10px] uppercase tracking-widest text-brand">Motherson
+                                            Group</span>
+                                        <span class="text-[9px] text-neutral-500">Jul 2022 — Sept 2023</span>
+                                    </div>
+                                    <h4 class="text-base font-bold uppercase mb-1">Business Analyst · SAP CO
+                                        Rollout</h4>
+                                    <p class="text-[13px] text-neutral-500 mb-3">France, UK, Spain</p>
+                                    <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                        <li>• Assessed current state of business processes across France, UK,
+                                            and Spain, identifying customer requirements to inform deployment
+                                            strategies.</li>
+                                        <li>• Prepared and validated business solution delivery, coordinating
+                                            with stakeholders to ensure alignment with project objectives.</li>
+                                        <li>• Developed comprehensive user guides to support end-users in
+                                            navigating and utilizing new systems.</li>
+                                    </ul>
+                                    <p class="text-[11px] uppercase tracking-widest text-neutral-500 mb-2">Key
+                                        accomplishment</p>
+                                    <p class="text-[13px] text-neutral-300 italic mb-4">Successfully coordinated
+                                        the solution delivery for an automotive manufacturer in multiple
+                                        countries, including Spain, the UK, and France.</p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">SAP S/4HANA
+                                            CO</span>
+                                    </div>
+                                </article>
+                                <article
+                                    class="exp-card exp-block-acn rounded-2xl border border-neutral-700/80 p-6 hover:border-brand/40 flex flex-col">
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <span class="text-[10px] uppercase tracking-widest text-brand">Accenture
+                                            Internal</span>
+                                        <span class="text-[9px] text-neutral-500">Done</span>
+                                    </div>
+                                    <h4 class="text-base font-bold uppercase mb-4">Internal Initiatives &amp;
+                                        Community</h4>
+                                    <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                        <li>• Delivered internal SAP and Agile methodology training as a member
+                                            of the Accenture Faculty, upskilling cross-functional teams.</li>
+                                        <li>• Orchestrated high-profile industry showcases, including "Tech for
+                                            Retail," managing event logistics and brand representation at major
+                                            trade fairs.</li>
+                                        <li>• Championed the adoption of Accenture internal AI tools,
+                                            collaborating with the AI community to drive democratization and
+                                            process improvement across the organization.</li>
+                                        <li>• Mentored students through the Accenture Foundation to successfully
+                                            deliver high-impact projects for non-profit associations.</li>
+                                    </ul>
+                                    <div class="flex flex-wrap gap-1.5 mt-auto">
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Internal
+                                            Faculty</span>
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Tech for
+                                            Retail</span>
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">AI
+                                            Adoption</span>
+                                        <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Mentoring</span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- IMONI SHOWROOM -->
+                        <div class="relative pl-6 md:pl-8 border-l-2 border-neutral-600">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-neutral-600"></div>
+                            <div class="mb-8">
+                                <h3 class="text-2xl md:text-3xl font-black uppercase italic text-light">Imoni Showroom
+                                </h3>
+                                <p class="text-xs uppercase tracking-widest text-neutral-400 mt-1">Digital Product
+                                    Management · April 2021 — June 2021</p>
+                            </div>
+                            <article
+                                class="exp-card rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 hover:border-brand/40 flex flex-col">
+                                <h4 class="text-base font-bold uppercase mb-4">End-to-End Digital Product
+                                    Delivery</h4>
+                                <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                    <li>• <strong class="text-neutral-300">Agile management:</strong> End-to-end
+                                        product development using Agile methodologies, managing cross-functional
+                                        sprints to accelerate time-to-market.</li>
+                                    <li>• <strong class="text-neutral-300">Product requirement
+                                            gathering:</strong> Capturing and mapping company needs for the
+                                        digital product.</li>
+                                    <li>• Directed the conception and development of cost-effective digital
+                                        solutions, ensuring they met rigorous performance, scalability, and
+                                        technical standards.</li>
+                                    <li>• <strong class="text-neutral-300">Cloud deployment &amp; release
+                                            management:</strong> Orchestrated the delivery and deployment of
+                                        digital products via cloud-native infrastructure, ensuring high
+                                        availability and seamless web integration.</li>
+                                    <li>• Conception of UX/UI for app and website.</li>
+                                </ul>
+                                <p class="text-[11px] uppercase tracking-widest text-neutral-500 mb-2">Key
+                                    accomplishment</p>
+                                <p class="text-[13px] text-neutral-300 italic mb-4">Successfully conceptualized,
+                                    developed, and deployed the digital product for the company across several
+                                    websites. The product has become one of the flagship offerings of the
+                                    company.</p>
+                                <div class="flex flex-wrap gap-1.5 mt-auto">
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Scrum/Agile</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Azure Cloud</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Unity 3D</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Shopify</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">WordPress</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Wix</span>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- GALERIES LAFAYETTE -->
+                        <div class="relative pl-6 md:pl-8 border-l-2 border-neutral-600">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-neutral-600"></div>
+                            <div class="mb-8">
+                                <h3 class="text-2xl md:text-3xl font-black uppercase italic text-light">Galeries
+                                    Lafayette</h3>
+                                <p class="text-xs uppercase tracking-widest text-neutral-400 mt-1">Associate Sales
+                                    Manager · Sept 2018 — Jan 2020</p>
+                            </div>
+                            <article
+                                class="exp-card rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 hover:border-brand/40 flex flex-col">
+                                <h4 class="text-base font-bold uppercase mb-4">Retail Operations &amp; Team
+                                    Leadership</h4>
+                                <ul class="space-y-2 text-[13px] text-neutral-400 mb-4 flex-1">
+                                    <li>• <strong class="text-neutral-300">Multi-brand management:</strong> 4
+                                        brands and 12 salespersons.</li>
+                                    <li>• <strong class="text-neutral-300">Commercial execution:</strong> Led
+                                        the end-to-end implementation and strategic follow-up of seasonal
+                                        commercial operations, ensuring consistent brand alignment and
+                                        promotional success.</li>
+                                    <li>• <strong class="text-neutral-300">Stock &amp; inventory
+                                            management:</strong> Led stock and inventory management processes to
+                                        minimize shrinkage and ensure optimal product availability.</li>
+                                    <li>• <strong class="text-neutral-300">Performance analytics:</strong>
+                                        Monitored and analyzed key performance indicators (KPIs), including
+                                        conversion rates, average basket value, and total turnover, to identify
+                                        growth opportunities.</li>
+                                    <li>• <strong class="text-neutral-300">Conflict resolution &amp; team
+                                            coaching:</strong> Expertly navigated internal and customer
+                                        conflicts, maintaining a positive workplace environment and high
+                                        customer satisfaction scores.</li>
+                                </ul>
+                                <p class="text-[11px] uppercase tracking-widest text-neutral-500 mb-2">Key
+                                    accomplishment</p>
+                                <p class="text-[13px] text-neutral-300 italic mb-4">Managed 4 brands and supervised a
+                                    team of 12 sales associates, ensuring operational cohesion and the
+                                    consistent achievement of turnover targets. Optimization of the customer
+                                    loyalty program, driving a significant increase in retention rates by
+                                    leveraging team coaching and data-driven analysis of KPIs (average basket
+                                    value, purchase frequency).</p>
+                                <div class="flex flex-wrap gap-1.5 mt-auto">
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Retail
+                                        Management</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Team
+                                        Leadership</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">KPI Analytics</span>
+                                    <span class="bg-neutral-800 rounded px-2 py-0.5 text-[9px]">Loyalty
+                                        Programs</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- More companies will be added here as you provide them -->
+                </div>
+            </section>
+
+            <section id="education" class="py-24 px-6 bg-dark text-light">
+                <div class="max-w-6xl mx-auto">
+                    <div
+                        class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 border-b border-neutral-800 pb-10">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-neutral-500 mb-3">Academic Background
+                            </p>
+                            <h2 class="text-6xl md:text-7xl font-black uppercase tracking-tighter leading-none">
+                                Educations</h2>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <article
+                            class="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-neutral-900/90 to-neutral-900/70 p-6 hover:border-brand/30 transition-colors">
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-brand mb-2">2024 — 2026</p>
+                            <h3 class="text-lg font-extrabold uppercase mb-2">Executive Master in Digitalization
+                                Transformation</h3>
+                            <p class="text-sm text-neutral-400">ESSEC Business School</p>
+                        </article>
+
+                        <article
+                            class="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-neutral-900/90 to-neutral-900/70 p-6 hover:border-brand/30 transition-colors">
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-brand mb-2">2020 — 2022</p>
+                            <h3 class="text-lg font-extrabold uppercase mb-2">Master in Digitalization, AI &amp; Big
+                                Data</h3>
+                            <p class="text-sm text-neutral-400">INSEEC Business School</p>
+                        </article>
+
+
+
+                        <article
+                            class="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-neutral-900/90 to-neutral-900/70 p-6 hover:border-brand/30 transition-colors">
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-brand mb-2">2019</p>
+                            <h3 class="text-lg font-extrabold uppercase mb-2">Merchant Universe Manager Diploma</h3>
+                            <p class="text-sm text-neutral-400">CFA Institute</p>
+                        </article>
+
+                        <article
+                            class="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-neutral-900/90 to-neutral-900/70 p-6 hover:border-brand/30 transition-colors">
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-brand mb-2">2013 — 2016</p>
+                            <h3 class="text-lg font-extrabold uppercase mb-2">Bachelor's in Economics &amp; Business
+                                Management</h3>
+                            <p class="text-sm text-neutral-400">University of Paris 1 Panthéon-Sorbonne</p>
+                        </article>
+
+                        <article
+                            class="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-br from-neutral-900/90 to-neutral-900/70 p-6 hover:border-brand/30 transition-colors">
+                            <p class="text-[10px] uppercase tracking-[0.3em] text-brand mb-2">2012</p>
+                            <h3 class="text-lg font-extrabold uppercase mb-2">Scientific Baccalaureate</h3>
+                            <p class="text-sm text-neutral-400">Lycée les Roches</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="certifications" class="py-24 px-6 bg-dark text-light">
+                <div class="max-w-6xl mx-auto">
+                    <div
+                        class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 border-b border-neutral-800 pb-8">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-[0.3em] text-neutral-500 mb-2">Professional
+                                Credentials</p>
+                            <h2 class="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+                                Certifications</h2>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
+                        <article
+                            class="cert-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 flex flex-col">
+                            <div
+                                class="aspect-square w-full bg-gradient-to-br from-brand/20 to-brand/5 flex items-center justify-center min-h-0">
+                                <span class="text-lg md:text-xl font-black text-brand/60">PSPO</span>
+                            </div>
+                            <div class="p-2.5 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-[10px] font-bold uppercase leading-tight">Scrum Product Owner PSPO I
+                                </h3>
+                                <p class="text-[9px] text-neutral-500 mt-0.5">Scrum.org</p>
+                            </div>
+                        </article>
+
+                        <article
+                            class="cert-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 flex flex-col">
+                            <div
+                                class="aspect-square w-full bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 flex items-center justify-center min-h-0">
+                                <span class="text-lg md:text-xl font-black text-emerald-500/60">SAFe</span>
+                            </div>
+                            <div class="p-2.5 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-[10px] font-bold uppercase leading-tight">Scaled Agile Framework Agilist
+                                </h3>
+                                <p class="text-[9px] text-neutral-500 mt-0.5">SAFe</p>
+                            </div>
+                        </article>
+
+                        <article
+                            class="cert-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 flex flex-col">
+                            <div
+                                class="aspect-square w-full bg-gradient-to-br from-amber-500/20 to-amber-500/5 flex items-center justify-center min-h-0">
+                                <span class="text-lg md:text-xl font-black text-amber-500/60">TOGAF</span>
+                            </div>
+                            <div class="p-2.5 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-[10px] font-bold uppercase leading-tight">TOGAF Business Architecture
+                                </h3>
+                                <p class="text-[9px] text-neutral-500 mt-0.5">The Open Group</p>
+                            </div>
+                        </article>
+
+                        <article
+                            class="cert-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 flex flex-col">
+                            <div
+                                class="aspect-square w-full bg-gradient-to-br from-sky-500/20 to-sky-500/5 flex items-center justify-center min-h-0">
+                                <span class="text-lg md:text-xl font-black text-sky-500/60">AZ</span>
+                            </div>
+                            <div class="p-2.5 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-[10px] font-bold uppercase leading-tight">Azure Cloud Fundamentals
+                                    AZ-900</h3>
+                                <p class="text-[9px] text-neutral-500 mt-0.5">Microsoft</p>
+                            </div>
+                        </article>
+
+                        <article
+                            class="cert-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 flex flex-col">
+                            <div
+                                class="aspect-square w-full bg-gradient-to-br from-teal-500/20 to-teal-500/5 flex items-center justify-center min-h-0">
+                                <span class="text-lg md:text-xl font-black text-teal-500/60">SAP FI</span>
+                            </div>
+                            <div class="p-2.5 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-[10px] font-bold uppercase leading-tight">SAP S/4HANA — Financial
+                                    Accounting</h3>
+                                <p class="text-[9px] text-neutral-500 mt-0.5">SAP</p>
+                            </div>
+                        </article>
+
+                        <article
+                            class="cert-card group relative overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900/80 flex flex-col">
+                            <div
+                                class="aspect-square w-full bg-gradient-to-br from-violet-500/20 to-violet-500/5 flex items-center justify-center min-h-0">
+                                <span class="text-lg md:text-xl font-black text-violet-500/60">SAP CO</span>
+                            </div>
+                            <div class="p-2.5 flex flex-col flex-1 min-w-0">
+                                <h3 class="text-[10px] font-bold uppercase leading-tight">SAP S/4HANA — Management
+                                    Accounting</h3>
+                                <p class="text-[9px] text-neutral-500 mt-0.5">SAP</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-32 px-6 bg-white text-dark">
+                <div class="max-w-6xl mx-auto">
+                    <h2 class="text-4xl font-black uppercase tracking-tight mb-16">Role alignement & Career aspirations
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                        <div class="space-y-8">
+                            <div class="border-t border-neutral-200 pt-6">
+                                <p class="text-brand font-bold text-xs mb-2">EDUCATION</p>
+                                <p class="text-lg">Trained 30+ persons as part of <span class="font-bold">Accenture
+                                        Internal Faculty</span> for bootcamp sessions.</p>
+                            </div>
+                            <div class="border-t border-neutral-200 pt-6">
+                                <p class="text-brand font-bold text-xs mb-2">EVENTS</p>
+                                <p class="text-lg">Organized "Tech for Retail" fair, connecting Accenture leadership to
+                                    C-level executives.</p>
+                            </div>
+                        </div>
+                        <div class="space-y-8">
+                            <div class="border-t border-neutral-200 pt-6">
+                                <p class <section class="py-24 overflow-hidden">
+                                <h2
+                                    class="text-[20vw] font-black uppercase tracking-tighter leading-none whitespace-nowrap -ml-4 opacity-10">
+                                    STRATEGY • DESIGN • RESULTS •
+                                </h2>
+            </section>
+
+            <footer id="contact" class="bg-[#1a1a18] text-neutral-300 py-20 px-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                    <div>
+                        <p class="text-6xl font-black uppercase tracking-tighter text-white mb-8">Let's Connect</p>
+                        <a href="mailto:william.g.huang@hotmail.com"
+                            class="text-2xl font-light hover:text-brand transition">william.g.huang@hotmail.com</a>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest mb-4 font-bold text-neutral-500">Social</p>
+                            <ul class="text-xs space-y-2">
+                                <li><a href="https://www.linkedin.com/in/william-g-huang/"
+                                        class="hover:text-white">LinkedIn</a></li>
+                                <li><a href="https://www.credly.com/users/william-g-huang"
+                                        class="hover:text-white">Credly</a></li>
+                                <li><a href="#" class="hover:text-white"></a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest mb-4 font-bold text-neutral-500">Location
+                            </p>
+                            <p class="text-xs">Based in Paris, France<br />Available for remote work.</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="pt-10 border-t border-neutral-800 text-[10px] uppercase tracking-widest flex justify-between">
+                    <span>© William Huang 2026</span>
+                    <a href="#main-content">Back to top ↑</a>
+                </div>
+            </footer>
+
+            <!-- Experience detail modal (only for Experience section cards) -->
+            <div id="exp-modal-overlay" class="exp-modal-overlay" aria-hidden="true"></div>
+            <div id="exp-modal" class="exp-modal" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
+                <button type="button" class="exp-modal-close" id="exp-modal-close" aria-label="Close">&times;</button>
+                <div id="exp-modal-body" class="exp-modal-body text-light"></div>
+            </div>
+        </main>
+
+        <script>
+            // Initialize Smooth Scroll
+            const lenis = new Lenis();
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Text Reveal Animation
+            document.querySelectorAll('.reveal-text span').forEach((el) => {
+                gsap.to(el, {
+                    y: 0,
+                    duration: 1.5,
+                    ease: "power4.out",
+                    scrollTrigger: { trigger: el, start: "top 95%" }
+                });
+            });
+
+            // Hero Image Animation
+            gsap.from(".hero-image", {
+                x: 100,
+                opacity: 0,
+                duration: 1.5,
+                delay: 0.3,
+                ease: "power4.out",
+                scrollTrigger: { trigger: ".hero-image", start: "top 95%" }
+            });
+
+            // Horizontal Scrolling Text Effect
+            gsap.to("section h2.whitespace-nowrap", {
+                xPercent: -30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "section h2.whitespace-nowrap",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            });
+
+            // --- Scroll reveal, hover parallax, click modal ---
+            (function () {
+                const expCards = document.querySelectorAll("#experience .exp-card");
+
+                // 1) Scroll reveal for Experience cards: each card slides in from right when it enters viewport (stagger via delay by index)
+                if (expCards.length) {
+                    expCards.forEach((card, i) => {
+                        gsap.from(card, {
+                            x: 80,
+                            opacity: 0,
+                            duration: 0.7,
+                            delay: 0.08 * i,
+                            ease: "power3.out",
+                            scrollTrigger: {
+                                trigger: card,
+                                start: "top 88%",
+                                toggleActions: "play none none none"
+                            }
+                        });
+                    });
+                }
+
+                // 2) Hover: subtle parallax + lift + soft glow
+                // Apply this to BOTH Experience and Education cards
+                const interactiveCards = document.querySelectorAll("#experience .exp-card, #education .group");
+                const LIFT = -8;
+                const PARALLAX = 6;
+                interactiveCards.forEach((card) => {
+                    card.addEventListener("mouseenter", function () {
+                        if (this.classList.contains('exp-card')) {
+                            this.classList.add("exp-card-hover");
+                        }
+                    });
+                    card.addEventListener("mouseleave", function (e) {
+                        if (this.classList.contains('exp-card')) {
+                            this.classList.remove("exp-card-hover");
+                        }
+                        gsap.to(this, { x: 0, y: 0, duration: 0.3, ease: "power2.out" });
+                    });
+                    card.addEventListener("mousemove", function (e) {
+                        const rect = this.getBoundingClientRect();
+                        const cx = rect.left + rect.width / 2;
+                        const cy = rect.top + rect.height / 2;
+                        const dx = (e.clientX - cx) / (rect.width / 2);
+                        const dy = (e.clientY - cy) / (rect.height / 2);
+                        const x = dx * PARALLAX;
+                        const y = LIFT + dy * PARALLAX * 0.5;
+                        gsap.to(this, { x, y, duration: 0.2, ease: "power2.out" });
+                    });
+                });
+
+                // 3) Click: open modal with detailed content (clone of card content) - ONLY for Experience Cards
+                const overlay = document.getElementById("exp-modal-overlay");
+                const modal = document.getElementById("exp-modal");
+                const body = document.getElementById("exp-modal-body");
+                const closeBtn = document.getElementById("exp-modal-close");
+
+                function openModal(card) {
+                    body.innerHTML = "";
+                    const clone = card.cloneNode(true);
+                    clone.classList.remove("exp-card", "exp-block-loreal", "exp-block-ge", "exp-block-editis", "exp-block-motherson", "exp-block-acn", "exp-card-hover");
+                    clone.style.cursor = "default";
+                    clone.querySelectorAll("[style]").forEach((el) => el.removeAttribute("style"));
+                    body.appendChild(clone);
+                    overlay.classList.add("exp-modal-open");
+                    modal.classList.add("exp-modal-open");
+                    modal.setAttribute("aria-hidden", "false");
+                    overlay.setAttribute("aria-hidden", "false");
+                    document.body.style.overflow = "hidden";
+                }
+
+                function closeModal() {
+                    overlay.classList.remove("exp-modal-open");
+                    modal.classList.remove("exp-modal-open");
+                    modal.setAttribute("aria-hidden", "true");
+                    overlay.setAttribute("aria-hidden", "true");
+                    document.body.style.overflow = "";
+                }
+
+                if (expCards.length) {
+                    expCards.forEach((card) => {
+                        card.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            openModal(this);
+                        });
+                    });
+                    overlay.addEventListener("click", closeModal);
+                    closeBtn.addEventListener("click", closeModal);
+                    modal.addEventListener("click", function (e) { e.stopPropagation(); });
+                    document.addEventListener("keydown", function (e) {
+                        if (e.key === "Escape" && modal.classList.contains("exp-modal-open")) closeModal();
+                    });
+                }
+            })();
+        </script>
+
+</body>
+
+</html>
